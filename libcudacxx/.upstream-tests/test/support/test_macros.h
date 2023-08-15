@@ -425,14 +425,18 @@ constexpr bool unused(T &&) {return true;}
 #if defined(__NVCC_DIAG_PRAGMA_SUPPORT__)
 #if defined (TEST_COMPILER_MSVC)
 # define TEST_NV_DIAG_SUPPRESS(WARNING) __pragma(_TEST_TOSTRING(nv_diag_suppress WARNING))
+# define TEST_NV_DIAG_DEFAULT(WARNING) __pragma(_TEST_TOSTRING(nv_diag_default WARNING))
 #else // ^^^ MSVC ^^^ / vvv not MSVC vvv
 # define TEST_NV_DIAG_SUPPRESS(WARNING) _Pragma(_TEST_TOSTRING(nv_diag_suppress WARNING))
+# define TEST_NV_DIAG_DEFAULT(WARNING) _Pragma(_TEST_TOSTRING(nv_diag_default WARNING))
 #endif // not MSVC
 #else // ^^^ __NVCC_DIAG_PRAGMA_SUPPORT__ ^^^ / vvv !__NVCC_DIAG_PRAGMA_SUPPORT__ vvv
 #if defined (TEST_COMPILER_MSVC)
 # define TEST_NV_DIAG_SUPPRESS(WARNING) __pragma(_TEST_TOSTRING(diag_suppress WARNING))
+# define TEST_NV_DIAG_DEFAULT(WARNING) __pragma(_TEST_TOSTRING(diag_default WARNING))
 #else // ^^^ MSVC ^^^ / vvv not MSVC vvv
 # define TEST_NV_DIAG_SUPPRESS(WARNING) _Pragma(_TEST_TOSTRING(diag_suppress WARNING))
+# define TEST_NV_DIAG_DEFAULT(WARNING) _Pragma(_TEST_TOSTRING(diag_default WARNING))
 #endif // not MSVC
 #endif
 
