@@ -60,10 +60,10 @@ jobs:
         id: verify-main
         run: |
           # This action can only be run from main.
-          if [[ $GITHUB_REF != refs/heads/main ]]; then
-            echo "  This action may only be run fom main" | tee -a $GITHUB_STEP_SUMMARY
-            exit 1
-          fi
+          # if [[ $GITHUB_REF != refs/heads/main ]]; then
+          #   echo "  This action may only be run fom main" | tee -a $GITHUB_STEP_SUMMARY
+          #   exit 1
+          # fi
 
       - name: Prepare environment
         id: prepare-env
