@@ -110,10 +110,11 @@ jobs:
               echo "  Target branch major version mismatch"
               exit 1
             fi;
-            if [ "${branch_minor} != "${minor_version}"; then
+            if [ "${branch_minor}" != "${minor_version}"; then
               echo "  Target branch minor version mismatch"
               exit 1
             fi
+          fi
 
           # PR branch must *not* exist
           if [ "${enable_force_push}" == "false" ]; then
