@@ -87,8 +87,7 @@ jobs:
 
           log_and_export_vars \
             full_version major_version minor_version patch_version \
-            branch_name pr_title pr_branch pr_body enable_force_push \
-            branch_version
+            branch_name pr_title pr_branch pr_body enable_force_push
 
           echo "Branch ref: $GITHUB_REF" | tee -a $GITHUB_STEP_SUMMARY
           echo "Branch SHA: $GITHUB_SHA" | tee -a $GITHUB_STEP_SUMMARY
