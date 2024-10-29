@@ -2,7 +2,10 @@
 
 set -eo pipefail
 
-# Ensure the script is being executed in its containing directory
+target_dir=$(realpath "$1")
+mkdir -p "$target_dir"
+
+# Move script to the root directory of the project
 cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )";
 
 source ./pretty_printing.sh
@@ -34,18 +37,13 @@ if [ $VERBOSE ]; then
     set -x
 fi
 
-target_dir=$(realpath "$1")
-mkdir -p "$target_dir"
-
 # Move to cccl/ dir
 pushd ".." > /dev/null
 GROUP_NAME="🛠️  CMake Configure CCCL - Install"
 run_command "$GROUP_NAME" cmake -G "Unix Makefiles" --preset install -DCMAKE_INSTALL_PREFIX="${target_dir}"
 status=$?
-popd > /dev/null
 
-pushd "../build/install" > /dev/null
 GROUP_NAME="🏗️  Install CCCL"
-run_command "$GROUP_NAME" cmake --install .
+run_command "$GROUP_NAME" cmake --build --preset install --target install
 status=$?
 popd > /dev/null
