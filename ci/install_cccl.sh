@@ -40,7 +40,7 @@ mkdir -p "$target_dir"
 # Move to cccl/ dir
 pushd ".." > /dev/null
 GROUP_NAME="🛠️  CMake Configure CCCL - Install"
-run_command "$GROUP_NAME" cmake -G Makefile --preset install -DCMAKE_INSTALL_PREFIX="${target_dir}"
+run_command "$GROUP_NAME" cmake -G "Unix Makefiles" --preset install -DCMAKE_INSTALL_PREFIX="${target_dir}"
 status=$?
 popd > /dev/null
 
