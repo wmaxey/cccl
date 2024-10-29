@@ -81,10 +81,10 @@ update_file () {
 
 # Update version information in files:
 
-update_file "$REPO_VERSION_FILE" "\"full\": \".+\"" "  \"full\": \"$major.$minor.$patch\""
-update_file "$REPO_VERSION_FILE" "\"major\": .+,"   "  \"major\": $major,"
-update_file "$REPO_VERSION_FILE" "\"minor\": .+,"   "  \"minor\": $minor,"
-update_file "$REPO_VERSION_FILE" "\"patch\": .+"    "  \"patch\": $patch"
+update_file "$REPO_VERSION_FILE" "  \"full\":.*," "  \"full\": \"$major.$minor.$patch\","
+update_file "$REPO_VERSION_FILE" "  \"major\":.*" "  \"major\": $major,"
+update_file "$REPO_VERSION_FILE" "  \"minor\":.*" "  \"minor\": $minor,"
+update_file "$REPO_VERSION_FILE" "  \"patch\":.*" "  \"patch\": $patch"
 
 update_file "$CCCL_VERSION_FILE" "^#define CCCL_VERSION \([0-9]\+\)" "#define CCCL_VERSION $new_cccl_version"
 update_file "$THRUST_VERSION_FILE" "^#define THRUST_VERSION \([0-9]\+\)" "#define THRUST_VERSION $new_thrust_cub_version"
