@@ -38,6 +38,24 @@ on:
         required: true
         default: false
 
+  workflow_call:
+    inputs:
+      new_version:
+        description: "Version 'X.Y.Z' for the release branch."
+        type: string
+        required: true
+        default: "0.0.0"
+      target_branch:
+        description: "Target branch for the version update"
+        type: string
+        required: false
+        default: "main"
+      force:
+        description: "Enable overwriting existing PR branches (this does not force overwrite the target branch or skip creating a PR)"
+        type: boolean
+        required: true
+        default: false
+
 defaults:
   run:
     shell: bash --noprofile --norc -euo pipefail {0}
@@ -145,8 +163,8 @@ jobs:
 
             git add .
 
-            git config user.name github-actions
-            git config user.email github-actions@github.com
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git commit -m "${pr_body}"
 
             # Push the changes to the release branch:
