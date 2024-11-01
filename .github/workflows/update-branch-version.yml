@@ -14,11 +14,9 @@
 # limitations under the License.
 
 name: "Release: 0. Update version in target branch"
-id: "update_branch_version"
 
 # The target branch when starting this workflow should be:
-# 1. "branch/{major}.{minor}.x" if it exists, or
-# 2. "main"
+# 1. "branch/{major}.{minor}.x" if it exists, or "main"
 
 on:
   workflow_dispatch:
@@ -57,7 +55,7 @@ jobs:
         with:
           ref: ${{ inputs.target_branch }}
 
-        - name: Prepare environment
+      - name: Prepare environment
         id: prepare-env
         run: |
           log_and_export_vars() {
