@@ -14,6 +14,7 @@
 # limitations under the License.
 
 name: "Release: 0. Update version in target branch"
+id: "update_branch_version"
 
 # The target branch when starting this workflow should be:
 # 1. "branch/{major}.{minor}.x" if it exists, or
@@ -21,24 +22,6 @@ name: "Release: 0. Update version in target branch"
 
 on:
   workflow_dispatch:
-    inputs:
-      new_version:
-        description: "Version 'X.Y.Z' for the release branch."
-        type: string
-        required: true
-        default: "0.0.0"
-      target_branch:
-        description: "Target branch for the version update"
-        type: string
-        required: false
-        default: "main"
-      force:
-        description: "Enable overwriting existing PR branches (this does not force overwrite the target branch or skip creating a PR)"
-        type: boolean
-        required: true
-        default: false
-
-  workflow_call:
     inputs:
       new_version:
         description: "Version 'X.Y.Z' for the release branch."
