@@ -74,16 +74,7 @@ jobs:
         with:
           ref: ${{ inputs.target_branch }}
 
-      - name: Verify run from main
-        id: verify-main
-        run: |
-          # This action can only be run from main.
-          if [[ $GITHUB_REF != refs/heads/main ]]; then
-            echo "  This action may only be run fom main" | tee -a $GITHUB_STEP_SUMMARY
-            exit 1
-          fi
-
-      - name: Prepare environment
+        - name: Prepare environment
         id: prepare-env
         run: |
           log_and_export_vars() {
