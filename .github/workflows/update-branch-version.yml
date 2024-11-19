@@ -56,7 +56,7 @@ jobs:
           ref: ${{ inputs.target_branch }}
 
       - name: Update version
-        uses: ${{ github.repository }}/.github/actions/version-update@main
+        uses: ./.github/actions/version-update
         with:
           new_version: ${{ inputs.new_version }}
           target_branch: ${{ inputs.target_branch }}
