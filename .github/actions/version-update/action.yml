@@ -24,7 +24,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    shell:
+
     - name: Checkout the repository
       uses: actions/checkout@v4
       with:
