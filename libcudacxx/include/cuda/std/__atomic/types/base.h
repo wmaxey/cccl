@@ -21,7 +21,7 @@
 #  pragma system_header
 #endif // no system header
 
-#include <cuda/std/__atomic/functions.h>
+#include <cuda/std/__atomic/backends/.h>
 #include <cuda/std/__atomic/types/common.h>
 #include <cuda/std/__type_traits/is_trivially_copyable.h>
 
