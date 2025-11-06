@@ -22,10 +22,13 @@
 #endif // no system header
 
 #include <cuda/std/__atomic/platform.h>
-
+#if _CCCL_CUDA_COMPILER(NVCC, >, 12, 8)
+#  include <cuda/std/__atomic/backends/cuda_intrinsics.h>
+#else
 // Device atomics
+#  include <cuda/std/__atomic/backends/cuda_ptx_generated.h>
+#endif
 #include <cuda/std/__atomic/backends/cuda_ptx_derived.h>
-#include <cuda/std/__atomic/backends/cuda_ptx_generated.h>
 
 // Host atomics
 #include <cuda/std/__atomic/backends/host.h>

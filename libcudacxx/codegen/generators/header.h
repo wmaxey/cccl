@@ -51,7 +51,7 @@ inline void FormatHeader(std::ostream& out)
 #include <cuda/std/__atomic/scopes.h>
 #include <cuda/std/__atomic/order.h>
 #include <cuda/std/__atomic/backends/common.h>
-#include <cuda/std/__atomic/backends/cuda_ptx_generated_helper.h>
+#include <cuda/std/__atomic/backends/cuda_supported_atomics_helper.h>
 #include <cuda/std/__atomic/backends/cuda_local.h>
 
 #include <cuda/std/__cccl/prologue.h>
