@@ -714,7 +714,7 @@
                 // cccl/device_vector.html => 'cccl 'device 'vector
                 console.log("query:" + searchString)
                 const fuse = new Fuse(pagelist, options)
-                const result = fuse.search(query, {limit: 10})
+                const result = fuse.search(searchString, {limit: 10})
 
                 const listItem = '<li><a href=\"{2}{0}\">{0}</a> - Score: {1}</li>'.replace(/\{2\}/g, rootUrl + "/")
                 document.getElementById('linkGen').innerHTML = ""
