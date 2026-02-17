@@ -694,6 +694,10 @@
 
     var searchString = params.get("path");
 
+    if (searchString === "/" || searchString === null) {
+      window.location.href = rootUrl + "/index.html"
+    }
+
     if (searchString !== null) {
         fetch(pagelistUrl)
             .then((response) => response.text())
