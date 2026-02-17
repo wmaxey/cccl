@@ -712,8 +712,7 @@
                 }
 
                 // cccl/device_vector.html => 'cccl 'device 'vector
-                const query = searchString.replace(/\/|-|_/gi," '").replace(".html","")
-                console.log("query:" + query)
+                console.log("query:" + searchString)
                 const fuse = new Fuse(pagelist, options)
                 const result = fuse.search(query, {limit: 10})
 
