@@ -28,10 +28,10 @@
         }
 
         // User was trying to reach a path, forward to appropriate 404 helper
-        if (searchPathMatch !== null) {
+        if (searchPathMatch) {
             // Redirect to the helper page, including the query
             window.location.href =
-                hostUrl + rootPath + "/404_helper.html?path=" + searchPathMatch[0]
+                hostUrl + rootPath + "/404_helper.html?path=" + searchPathMatch
         }
         // Redirect to index otherwise
         else {
