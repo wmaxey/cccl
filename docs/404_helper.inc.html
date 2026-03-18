@@ -36,16 +36,16 @@
                 const pagelist = text.split(",")
 
                 const options = {
-                includeScore: true,
-                distance: 100,
-                threshold: 0.8,
-                ignoreLocation: true
+                  includeScore: true,
+                  threshold: 0.8,
+                  ignoreLocation: false
                 }
 
                 // cccl/device_vector.html => 'cccl 'device 'vector
                 console.log("query:" + searchString)
                 const fuse = new Fuse(pagelist, options)
-                const result = fuse.search(searchString, {limit: 10})
+                // Include the artificial ending token to artificially prioritize short matches
+                const result = fuse.search(searchString + "(end)", {limit: 10})
 
                 const listItem = '<li><a href=\"{2}{0}\">{0}</a> - Score: {1}</li>'.replace(/\{2\}/g, rootUrl)
                 document.getElementById('linkGen').innerHTML = ""
