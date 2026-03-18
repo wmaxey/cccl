@@ -54,8 +54,8 @@
                   const targetScore = element.score.toFixed(2)
                   document.getElementById('linkGen').innerHTML += listItem.replace(/\{0\}/g, targetUri).replace(/\{1\}/g, targetScore)
                   // The match is near perfect, just link directly to it.
-                  if (element.score <= 0.02 ) {
-                    window.location.href = rootUrl + element.item
+                  if (targetScore <= 0.02 ) {
+                    window.location.href = rootUrl + targetUri
                   }
                 });
             })
