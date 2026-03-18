@@ -50,8 +50,9 @@
                 const listItem = '<li><a href=\"{2}{0}\">{0}</a> - Score: {1}</li>'.replace(/\{2\}/g, rootUrl)
                 document.getElementById('linkGen').innerHTML = ""
                 result.forEach(element => {
-                  element.replace("(end)", "")
-                  document.getElementById('linkGen').innerHTML += listItem.replace(/\{0\}/g, element.item).replace(/\{1\}/g, element.score.toFixed(2))
+                  targetUri = element.item.replace("(end)", "")
+                  targetScore = element.score.toFixed(2)
+                  document.getElementById('linkGen').innerHTML += listItem.replace(/\{0\}/g, targetUri).replace(/\{1\}/g, targetScore)
                   // The match is near perfect, just link directly to it.
                   if (element.score <= 0.02 ) {
                     window.location.href = rootUrl + element.item
