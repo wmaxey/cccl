@@ -95,7 +95,7 @@ workflows:
     # https://discourse.cmake.org/t/cmake-cuda-clang-fails/8657/5).
     #
     # Standard being exactly "min" is required. clang-tidy may emit additional diagnostics
-    # for later C++ versions (for example, warning that you should use designated
+    # for later C++ versions (for example, warning that you should use desiged
     # initializers in C++20 or higher).
     - { jobs: ['build'], project: 'tidy', std: 'min', cxx: ['clang'], cudacxx: ['clang'], ctk: 'clang-cuda', sm: '75' }
 
@@ -173,13 +173,15 @@ workflows:
     - {jobs: ['test'], project: 'cub',        ctk: '12.X', std: 'max', cxx: ['gcc', 'clang19', 'msvc'], gpu: 'rtxa6000'}
     - {jobs: ['test'], project: 'thrust',     ctk: '12.X', std: 'max', cxx: ['gcc', 'clang19', 'msvc'], gpu: 'rtx4090'}
     - {jobs: ['test'], project: 'cudax',      ctk: '12.X', std: 'max', cxx: ['gcc', 'clang19', 'msvc'], gpu: 'rtx2080'}
-    - {jobs: ['test'], project: ['libcudacxx', 'cub', 'thrust', 'cudax'], ctk: '12.X', std: 'max', gpu: 'h100' }
+    - {jobs: ['test'], project: ['cub', 'thrust', 'cudax'], ctk: '12.X', std: 'max', gpu: 'h100' }
+    - {jobs: ['test'], project: 'libcudacxx', ctk: '12.X', std: 'max', gpu: 'h100', sm: sm90 }
     # CTK '13.X' testing:
     - {jobs: ['test'], project: 'libcudacxx', ctk: '13.X', std: 'max', cxx: ['gcc', 'clang', 'msvc'], gpu: 'rtx2080'}
     - {jobs: ['test'], project: 'cub',        ctk: '13.X', std: 'max', cxx: ['gcc', 'clang', 'msvc'], gpu: 'rtxa6000'}
     - {jobs: ['test'], project: 'thrust',     ctk: '13.X', std: 'max', cxx: ['gcc', 'clang', 'msvc'], gpu: 'rtx4090'}
     - {jobs: ['test'], project: 'cudax',      ctk: '13.X', std: 'max', cxx: ['gcc', 'clang', 'msvc'], gpu: 'rtx2080'}
-    - {jobs: ['test'], project: ['libcudacxx', 'cub', 'thrust', 'cudax'], ctk: '13.X', std: 'max', gpu: 'h100' }
+    - {jobs: ['test'], project: ['cub', 'thrust', 'cudax'], ctk: '13.X', std: 'max', gpu: 'h100' }
+    - {jobs: ['test'], project: 'libcudacxx', ctk: '13.X', std: 'max', gpu: 'h100', sm: sm90 }
       # RTX PRO 6000 coverage (limited due to small number of runners):
     - {jobs: ['test_nolid', 'test_lid0'], project: 'cub', std: 'max', cxx: 'gcc', gpu: 'rtxpro6000'}
     # Misc:
