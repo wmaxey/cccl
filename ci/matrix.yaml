@@ -95,7 +95,7 @@ workflows:
     # https://discourse.cmake.org/t/cmake-cuda-clang-fails/8657/5).
     #
     # Standard being exactly "min" is required. clang-tidy may emit additional diagnostics
-    # for later C++ versions (for example, warning that you should use desiged
+    # for later C++ versions (for example, warning that you should use designated
     # initializers in C++20 or higher).
     - { jobs: ['build'], project: 'tidy', std: 'min', cxx: ['clang'], cudacxx: ['clang'], ctk: 'clang-cuda', sm: '75' }
 
