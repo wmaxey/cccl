@@ -16,6 +16,7 @@
 #include <cub/agent/agent_histogram.cuh>
 #include <cub/device/dispatch/tuning/tuning_histogram.cuh>
 #include <cub/grid/grid_queue.cuh>
+#include <cub/util_arch.cuh>
 
 #include <cuda/std/__numeric/reduce.h>
 
@@ -342,7 +343,7 @@ _CCCL_KERNEL_ATTRIBUTES void DeviceHistogramInitKernel(
   ::cuda::std::array<CounterT*, NumActiveChannels> d_output_histograms_wrapper,
   GridQueue<int> tile_queue)
 {
-  [[maybe_unused]] static constexpr histogram_policy policy = PolicySelector{}(::cuda::arch_id{CUB_PTX_ARCH / 10});
+  [[maybe_unused]] static constexpr histogram_policy policy = current_policy<PolicySelector>();
   _CCCL_PDL_GRID_DEPENDENCY_SYNC(); // TODO(bgruber): if we had the guarantee that there would be no pending
                                     // writes/reads to the temp storage, we could omit the sync here
 
@@ -455,7 +456,7 @@ template <typename PolicySelector,
 #if _CCCL_HAS_CONCEPTS()
   requires histogram_policy_selector<PolicySelector>
 #endif // _CCCL_HAS_CONCEPTS()
-__launch_bounds__(int(PolicySelector{}(::cuda::arch_id{CUB_PTX_ARCH / 10}).block_threads))
+__launch_bounds__(int(current_policy<PolicySelector>().block_threads))
   _CCCL_KERNEL_ATTRIBUTES void DeviceHistogramSweepKernel(
     _CCCL_GRID_CONSTANT const SampleIteratorT d_samples,
     _CCCL_GRID_CONSTANT const ::cuda::std::array<int, NumActiveChannels> num_output_bins_wrapper,
@@ -470,7 +471,7 @@ __launch_bounds__(int(PolicySelector{}(::cuda::arch_id{CUB_PTX_ARCH / 10}).block
     _CCCL_GRID_CONSTANT const int tiles_per_row,
     GridQueue<int> tile_queue)
 {
-  static constexpr histogram_policy hp = PolicySelector{}(::cuda::arch_id{CUB_PTX_ARCH / 10});
+  static constexpr histogram_policy hp = current_policy<PolicySelector>();
 
   // Thread block type for compositing input tiles
   using AgentHistogramPolicyT =
@@ -615,7 +616,7 @@ template <typename PolicySelector,
 #if _CCCL_HAS_CONCEPTS()
   requires histogram_policy_selector<PolicySelector>
 #endif // _CCCL_HAS_CONCEPTS()
-__launch_bounds__(int(PolicySelector{}(::cuda::arch_id{CUB_PTX_ARCH / 10}).block_threads))
+__launch_bounds__(int(current_policy<PolicySelector>().block_threads))
   _CCCL_KERNEL_ATTRIBUTES void DeviceHistogramSweepDeviceInitKernel(
     _CCCL_GRID_CONSTANT const SampleIteratorT d_samples,
     ::cuda::std::array<int, NumActiveChannels> num_output_bins_wrapper,
@@ -630,7 +631,7 @@ __launch_bounds__(int(PolicySelector{}(::cuda::arch_id{CUB_PTX_ARCH / 10}).block
     _CCCL_GRID_CONSTANT const int tiles_per_row,
     _CCCL_GRID_CONSTANT const GridQueue<int> tile_queue)
 {
-  static constexpr histogram_policy hp = PolicySelector{}(::cuda::arch_id{CUB_PTX_ARCH / 10});
+  static constexpr histogram_policy hp = current_policy<PolicySelector>();
 
   OutputDecodeOpT output_decode_op[NumActiveChannels];
   PrivatizedDecodeOpT privatized_decode_op[NumActiveChannels];
