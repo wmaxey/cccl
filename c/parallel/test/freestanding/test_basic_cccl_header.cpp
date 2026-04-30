@@ -17,6 +17,9 @@
 #include <hostjit/jit_compiler.hpp>
 
 static const char* k_source = R"(
+
+#include <cuda/std/initializer_list>
+
 #include <cuda_runtime.h>
 
 #ifdef _WIN32
@@ -27,7 +30,8 @@ static const char* k_source = R"(
 
 __global__ void device_kernel(int* ptr)
 {
-  *ptr = 42;
+  ::cuda::std::initializer_list<::std::size_t> meow {42ull, 1337ull};
+  *ptr = static_cast<int>(::std::move(*meow.begin()));
 }
 
 extern "C" EXPORT void host_entry(int* ptr)
