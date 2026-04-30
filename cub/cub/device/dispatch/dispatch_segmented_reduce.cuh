@@ -684,29 +684,25 @@ struct DeviceFixedSizeSegmentedReduceKernelSource
   }
 };
 
-template <
-  typename OverrideAccumT = use_default,
-  typename InputIteratorT,
-  typename OutputIteratorT,
-  typename OffsetT,
-  typename ReductionOpT,
-  typename InitT = non_void_value_t<OutputIteratorT, it_value_t<InputIteratorT>>,
-  typename AccumT =
-    decltype(select_segmented_accum_t<InputIteratorT, InitT, ReductionOpT>(static_cast<OverrideAccumT*>(nullptr))),
-  typename PolicySelector = policy_selector_from_hub<detail::segmented_reduce::policy_hub<AccumT, OffsetT, ReductionOpT>,
-                                                     AccumT,
-                                                     OffsetT,
-                                                     ReductionOpT>,
-  typename KernelSource = DeviceFixedSizeSegmentedReduceKernelSource<
-    PolicySelector,
-    InputIteratorT,
-    OutputIteratorT,
-    OffsetT,
-    ReductionOpT,
-    InitT,
-    AccumT>,
-  typename KernelLauncherFactory                                       = CUB_DETAIL_DEFAULT_KERNEL_LAUNCHER_FACTORY,
-  ::cuda::std::enable_if_t<::cuda::std::is_arithmetic_v<OffsetT>, int> = 0>
+template <typename OverrideAccumT = use_default,
+          typename InputIteratorT,
+          typename OutputIteratorT,
+          typename OffsetT,
+          typename ReductionOpT,
+          typename InitT          = non_void_value_t<OutputIteratorT, it_value_t<InputIteratorT>>,
+          typename AccumT         = decltype(select_segmented_accum_t<InputIteratorT, InitT, ReductionOpT>(
+            static_cast<OverrideAccumT*>(nullptr))),
+          typename PolicySelector = policy_selector_from_types<AccumT, OffsetT, ReductionOpT>,
+          typename KernelSource   = DeviceFixedSizeSegmentedReduceKernelSource<
+              PolicySelector,
+              InputIteratorT,
+              OutputIteratorT,
+              OffsetT,
+              ReductionOpT,
+              InitT,
+              AccumT>,
+          typename KernelLauncherFactory = CUB_DETAIL_DEFAULT_KERNEL_LAUNCHER_FACTORY,
+          ::cuda::std::enable_if_t<::cuda::std::is_arithmetic_v<OffsetT>, int> = 0>
 #if _CCCL_HAS_CONCEPTS()
   requires segmented_reduce_policy_selector<PolicySelector>
 #endif // _CCCL_HAS_CONCEPTS()
