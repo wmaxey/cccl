@@ -861,8 +861,8 @@ private:
               large_and_medium_segments_indices.get(),                                  \
               small_segments_indices.get(),                                             \
               launcher_factory,                                                         \
-              wrapped_policy.large_segment.BlockThreads(),                              \
-              wrapped_policy.small_segment.BlockThreads(),                              \
+              wrapped_policy.large_segment.ThreadsPerBlock(),                           \
+              wrapped_policy.small_segment.ThreadsPerBlock(),                           \
               wrapped_policy.medium_segment.SegmentsPerBlock(),                         \
               wrapped_policy.small_segment.SegmentsPerBlock())))                        \
     {                                                                                   \
@@ -911,8 +911,8 @@ private:
                 small_segments_indices.get(),
                 stream,
                 launcher_factory,
-                wrapped_policy.LargeSegmentBlockThreads(),
-                wrapped_policy.SmallSegmentBlockThreads(),
+                wrapped_policy.LargeSegmentThreadsPerBlock(),
+                wrapped_policy.SmallSegmentThreadsPerBlock(),
                 wrapped_policy.SegmentsPerMediumBlock(),
                 wrapped_policy.SegmentsPerSmallBlock()))
           {
@@ -935,7 +935,7 @@ private:
     WrappedPolicyT wrapped_policy)
   {
     const auto blocks_in_grid   = static_cast<local_segment_index_t>(num_segments);
-    const auto threads_in_block = static_cast<unsigned int>(wrapped_policy.LargeSegmentBlockThreads());
+    const auto threads_in_block = static_cast<unsigned int>(wrapped_policy.LargeSegmentThreadsPerBlock());
 
 // Log kernel configuration
 #ifdef CUB_DEBUG_LOG
