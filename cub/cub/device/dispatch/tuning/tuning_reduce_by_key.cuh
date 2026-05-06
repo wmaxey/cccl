@@ -1633,7 +1633,8 @@ static_assert(reduce_by_key_policy_selector<policy_selector>);
 template <typename PolicyHub>
 struct policy_selector_from_hub
 {
-  [[nodiscard]] _CCCL_API constexpr auto operator()(::cuda::compute_capability) const -> reduce_by_key_policy
+  [[nodiscard]] _CCCL_DEVICE_API constexpr auto operator()(::cuda::compute_capability /*cc*/) const
+    -> reduce_by_key_policy
   {
     using ReduceByKeyPolicyT = typename PolicyHub::MaxPolicy::ReduceByKeyPolicyT;
     return reduce_by_key_policy{

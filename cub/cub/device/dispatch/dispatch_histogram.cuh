@@ -780,15 +780,6 @@ public:
   }
 };
 
-template <typename PolicyHub>
-struct policy_selector_from_hub
-{
-  [[nodiscard]] _CCCL_HOST_DEVICE constexpr auto operator()(::cuda::compute_capability) const -> histogram_policy
-  {
-    return convert_policy<typename PolicyHub::MaxPolicy::ActivePolicy>();
-  }
-};
-
 template <
   int NUM_CHANNELS,
   int NUM_ACTIVE_CHANNELS,
