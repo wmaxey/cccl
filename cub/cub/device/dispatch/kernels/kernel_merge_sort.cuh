@@ -31,7 +31,7 @@ struct fallback_policy_getter
   _CCCL_API _CCCL_FORCEINLINE constexpr auto operator()() const
   {
     merge_sort_policy policy = DefaultPolicyGetter{}();
-    policy.block_threads     = 64;
+    policy.threads_per_block = 64;
     policy.items_per_thread  = 1;
     return policy;
   }
@@ -142,7 +142,7 @@ __launch_bounds__(
     OffsetT,
     CompareOpT,
     KeyT,
-    ValueT>::policy.block_threads)
+    ValueT>::policy.threads_per_block)
   _CCCL_KERNEL_ATTRIBUTES void DeviceMergeSortBlockSortKernel(
     _CCCL_GRID_CONSTANT const bool ping,
     _CCCL_GRID_CONSTANT const KeyInputIteratorT keys_in,
@@ -243,7 +243,7 @@ __launch_bounds__(
     OffsetT,
     CompareOpT,
     KeyT,
-    ValueT>::policy.block_threads)
+    ValueT>::policy.threads_per_block)
   _CCCL_KERNEL_ATTRIBUTES void DeviceMergeSortMergeKernel(
     _CCCL_GRID_CONSTANT const bool ping,
     _CCCL_GRID_CONSTANT const KeyIteratorT keys_ping,

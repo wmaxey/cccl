@@ -80,18 +80,18 @@ struct agent_batched_topk_worker_per_segment
   static constexpr worker_policy active_policy = policy.worker_per_segment_policy;
 
   // For block-topk (and keys/values load/store):
-  static constexpr int block_threads    = active_policy.block_threads;
-  static constexpr int items_per_thread = active_policy.items_per_thread;
-  static constexpr int tile_size        = block_threads * items_per_thread;
+  static constexpr int threads_per_block = active_policy.threads_per_block;
+  static constexpr int items_per_thread  = active_policy.items_per_thread;
+  static constexpr int tile_size         = threads_per_block * items_per_thread;
 
   // For block-scan (and offsets load/store):
   static constexpr int epilogue_items_per_thread = active_policy.epilogue.items_per_thread;
-  static constexpr int epilogue_tile_size        = block_threads * epilogue_items_per_thread;
+  static constexpr int epilogue_tile_size        = threads_per_block * epilogue_items_per_thread;
 
   // Number used for preprocessing segment-size data, not for tuning => should not affect performance of this agent.
   static constexpr multi_worker_policy multi_worker_per_segment_policy = policy.multi_worker_per_segment_policy;
   static constexpr int multi_worker_per_segment_tile_size =
-    multi_worker_per_segment_policy.block_threads * multi_worker_per_segment_policy.items_per_thread;
+    multi_worker_per_segment_policy.threads_per_block * multi_worker_per_segment_policy.items_per_thread;
 
   // Check if there could be large segments present
   static constexpr bool only_small_segments = params::static_max_value_v<SegmentSizeParameterT> <= tile_size;
@@ -102,21 +102,21 @@ struct agent_batched_topk_worker_per_segment
   // -------------------------------------------------------------------------
   // Primitive Types
   // -------------------------------------------------------------------------
-  using block_load_keys_t = BlockLoad<key_t, block_threads, items_per_thread, active_policy.load_algorithm>;
-  using block_load_vals_t = BlockLoad<value_t, block_threads, items_per_thread, active_policy.load_algorithm>;
+  using block_load_keys_t = BlockLoad<key_t, threads_per_block, items_per_thread, active_policy.load_algorithm>;
+  using block_load_vals_t = BlockLoad<value_t, threads_per_block, items_per_thread, active_policy.load_algorithm>;
 
-  using block_topk_t = block_topk<key_t, block_threads, items_per_thread, value_t>;
+  using block_topk_t = block_topk<key_t, threads_per_block, items_per_thread, value_t>;
 
   // TODO (elstehle): Specialize for the case that we statically know k and we can skip passing num_valid_items to
   // Store()
-  using block_store_keys_t = BlockStore<key_t, block_threads, items_per_thread, active_policy.store_algorithm>;
-  using block_store_vals_t = BlockStore<value_t, block_threads, items_per_thread, active_policy.store_algorithm>;
+  using block_store_keys_t = BlockStore<key_t, threads_per_block, items_per_thread, active_policy.store_algorithm>;
+  using block_store_vals_t = BlockStore<value_t, threads_per_block, items_per_thread, active_policy.store_algorithm>;
 
   using block_load_epilogue_t =
-    BlockLoad<segment_size_val_t, block_threads, epilogue_items_per_thread, active_policy.epilogue.load_algorithm>;
-  using block_scan_epilogue_t = BlockScan<int, block_threads, active_policy.epilogue.scan_algorithm>;
+    BlockLoad<segment_size_val_t, threads_per_block, epilogue_items_per_thread, active_policy.epilogue.load_algorithm>;
+  using block_scan_epilogue_t = BlockScan<int, threads_per_block, active_policy.epilogue.scan_algorithm>;
   using block_store_epilogue_t =
-    BlockStore<segment_size_val_t, block_threads, epilogue_items_per_thread, active_policy.epilogue.store_algorithm>;
+    BlockStore<segment_size_val_t, threads_per_block, epilogue_items_per_thread, active_policy.epilogue.store_algorithm>;
 
   // -------------------------------------------------------------------------
   // Shared Memory Storage
